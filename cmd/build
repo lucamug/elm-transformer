@@ -1,0 +1,8 @@
+#!/bin/bash
+set -eu
+
+npx elm@0.19.1-6 make src/TodoWrapper.elm --output=docs/build/GENERATED-elm-todo-wrapper.js
+npx elm@0.19.1-6 make src/Todo.elm        --output=docs/build/GENERATED-elm-todo.js
+npx elm@0.19.1-6 make src/Counter.elm     --output=docs/build/GENERATED-elm-counter.js
+npx elm@0.19.1-6 make src/Main.elm        --output=docs/build/GENERATED-elm-main.js
+cp public/* docs/

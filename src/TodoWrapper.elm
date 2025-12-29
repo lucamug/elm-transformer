@@ -1,0 +1,223 @@
+module TodoWrapper exposing (Msg, main)
+
+import Browser
+import Dict
+import Element exposing (..)
+import Element.Font as Font
+import Html
+import Todo
+import Transformer as T
+
+
+type Msg
+    = MsgTodo Todo.Msg
+    | MsgTransformer T.Msg
+
+
+main : Program Todo.Flags Todo.Model Msg
+main =
+    Browser.element
+        { init = Todo.init
+        , subscriptions = \_ -> Sub.none
+        , update = update
+        , view = view
+        }
+
+
+update : Msg -> Todo.Model -> ( Todo.Model, Cmd Msg )
+update msg model =
+    case msg of
+        MsgTodo msgTodo ->
+            let
+                ( newModel, cmd ) =
+                    Todo.update msgTodo model
+            in
+            ( newModel, Cmd.map MsgTodo cmd )
+
+        MsgTransformer msgTransformer ->
+            ( msgTransformer
+                |> T.update
+                |> Maybe.map (T.decode transformerModel)
+                |> Maybe.withDefault model
+            , Cmd.none
+            )
+
+
+view : Todo.Model -> Html.Html Msg
+view model =
+    layout [ paddingXY 32 0 ] <|
+        row [ width fill, spacing 32 ]
+            [ el [ width fill, alignTop ] <|
+                html <|
+                    Html.div []
+                        [ Html.map MsgTodo (Todo.view model)
+                        , Html.node "style" [] [ Html.text "body {max-width: inherit}" ]
+                        ]
+            , column
+                [ width fill
+                , alignTop
+                , paddingXY 0 32
+                , spacing 16
+                , Font.size 16
+                ]
+                [ map MsgTransformer <| T.viewFormElement <| T.encode transformerModel model
+                , paragraph [ Font.family [ Font.monospace ], Font.size 14 ]
+                    [ el [ Font.color <| rgba 0 0 0 0.3 ] <| text "Debug.toString model == "
+                    , text <| Debug.toString model
+                    ]
+                , paragraph []
+                    [ text "Source code at "
+                    , newTabLink [ Font.underline ]
+                        { label = text repo
+                        , url = repo
+                        }
+                    ]
+                ]
+            ]
+
+
+repo : String
+repo =
+    "https://github.com/lucamug/elm-transformer/"
+
+
+
+--
+-- TRANSFORMERS
+--
+
+
+transformerModel : T.Transformer Todo.Model
+transformerModel =
+    let
+        meta =
+            { description = { key = "description", tr = T.string }
+            , entries = { key = "entries", tr = T.list transformerEntry }
+            , mode = { key = "mode", tr = transformerMode }
+            , uid = { key = "uid", tr = T.int }
+            , visibility = { key = "visibility", tr = transformerVisibility }
+            }
+    in
+    T.helperForRecords
+        { decoder =
+            \dict ->
+                { description = T.field meta.description.tr meta.description.key dict
+                , entries = T.field meta.entries.tr meta.entries.key dict
+                , mode = T.field meta.mode.tr meta.mode.key dict
+                , uid = T.field meta.uid.tr meta.uid.key dict
+                , visibility = T.field meta.visibility.tr meta.visibility.key dict
+                }
+        , encoder =
+            \a ->
+                Dict.fromList
+                    [ ( meta.uid.key, T.encode meta.uid.tr a.uid )
+                    , ( meta.description.key, T.encode meta.description.tr a.description )
+                    , ( meta.mode.key, T.encode meta.mode.tr a.mode )
+                    , ( meta.visibility.key, T.encode meta.visibility.tr a.visibility )
+                    , ( meta.entries.key, T.encode meta.entries.tr a.entries )
+                    ]
+        , name = Just "Model"
+        }
+
+
+transformerVisibility : T.Transformer Todo.Visibility
+transformerVisibility =
+    let
+        all : List Todo.Visibility
+        all =
+            [ Todo.All, Todo.Active, Todo.Completed ]
+
+        encoder : Todo.Visibility -> T.CustomTypeAsTuple
+        encoder =
+            \customType ->
+                case customType of
+                    Todo.Active ->
+                        ( "Active", [] )
+
+                    Todo.All ->
+                        ( "All", [] )
+
+                    Todo.Completed ->
+                        ( "Completed", [] )
+
+        decoder : T.CustomTypeAsTuple -> Todo.Visibility
+        decoder =
+            \value ->
+                case value of
+                    ( "All", _ ) ->
+                        Todo.All
+
+                    ( "Active", _ ) ->
+                        Todo.Active
+
+                    _ ->
+                        Todo.Completed
+    in
+    T.helperForCustomTypes
+        { all = all
+        , decoder = decoder
+        , encoder = encoder
+        , name = Just "Visibility"
+        }
+
+
+transformerMode : T.Transformer Todo.Mode
+transformerMode =
+    let
+        all : List Todo.Mode
+        all =
+            [ Todo.Normal, Todo.Edit 0 "" ]
+
+        encoder : Todo.Mode -> T.CustomTypeAsTuple
+        encoder =
+            \customType ->
+                case customType of
+                    Todo.Edit int string ->
+                        ( "Edit", [ T.encode T.int int, T.encode T.string string ] )
+
+                    Todo.Normal ->
+                        ( "Normal", [] )
+
+        decoder : T.CustomTypeAsTuple -> Todo.Mode
+        decoder =
+            \value ->
+                case value of
+                    ( "Edit", p1 :: p2 :: _ ) ->
+                        Todo.Edit (T.decode T.int p1) (T.decode T.string p2)
+
+                    _ ->
+                        Todo.Normal
+    in
+    T.helperForCustomTypes
+        { all = all
+        , decoder = decoder
+        , encoder = encoder
+        , name = Just "Mode"
+        }
+
+
+transformerEntry : T.Transformer Todo.Entry
+transformerEntry =
+    let
+        meta =
+            { completed = { key = "completed", tr = T.bool }
+            , description = { key = "description", tr = T.string }
+            , uid = { key = "uid", tr = T.int }
+            }
+    in
+    T.helperForRecords
+        { decoder =
+            \dict ->
+                { completed = T.field meta.completed.tr meta.completed.key dict
+                , description = T.field meta.description.tr meta.description.key dict
+                , uid = T.field meta.uid.tr meta.uid.key dict
+                }
+        , encoder =
+            \a ->
+                Dict.fromList
+                    [ ( meta.uid.key, T.encode meta.uid.tr a.uid )
+                    , ( meta.description.key, T.encode meta.description.tr a.description )
+                    , ( meta.completed.key, T.encode meta.completed.tr a.completed )
+                    ]
+        , name = Just "Entry"
+        }

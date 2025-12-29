@@ -1,0 +1,22 @@
+{
+    "serve": "./public/",
+    "port": 8003,
+    "targets": {
+        "todo-wrapper": {
+            "inputs": ["./src/TodoWrapper.elm"],
+            "output": "./build/GENERATED-elm-todo-wrapper.js"
+        },
+        "todo": {
+            "inputs": ["./src/Todo.elm"],
+            "output": "./build/GENERATED-elm-todo.js"
+        },
+        "counter": {
+            "inputs": ["./src/Counter.elm"],
+            "output": "./build/GENERATED-elm-counter.js"
+        },
+        "main": {
+            "inputs": ["./src/Main.elm"],
+            "output": "./build/GENERATED-elm-main.js"
+        }
+    }
+}
