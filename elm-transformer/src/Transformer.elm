@@ -5,7 +5,7 @@ module Transformer exposing
     , helperForRecords, RecordAsDict, field
     , helperForCustomTypes, CustomTypeAsTuple
     , decode, encode
-    , viewForm, viewFormElement, viewFormElementAsHtml
+    , viewForm, viewFormElmUi, viewFormElmUiAsHtml
     , update
     , map
     , listWithName, arrayWithName, setWithName, dictWithName, defaultValue
@@ -46,7 +46,7 @@ module Transformer exposing
 
 # Views
 
-@docs viewForm, viewFormElement, viewFormElementAsHtml
+@docs viewForm, viewFormElmUi, viewFormElmUiAsHtml
 
 
 # update
@@ -117,15 +117,15 @@ viewForm =
 
 
 {-| -}
-viewFormElement : Value -> Element.Element Msg
-viewFormElement v =
-    TF.viewFormElement v
+viewFormElmUi : Value -> Element.Element Msg
+viewFormElmUi v =
+    TF.viewFormElmUi v
 
 
 {-| -}
-viewFormElementAsHtml : Value -> Html.Html Msg
-viewFormElementAsHtml =
-    TF.viewFormElementAsHtml
+viewFormElmUiAsHtml : Value -> Html.Html Msg
+viewFormElmUiAsHtml =
+    TF.viewFormElmUiAsHtml
 
 
 helper : Ancestors -> Value -> Value

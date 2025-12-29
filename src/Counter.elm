@@ -1,4 +1,4 @@
-module Counter exposing (Model, Msg(..), main)
+module Counter exposing (main)
 
 import Browser
 import Html exposing (Html, button, div, map, text)
@@ -41,7 +41,9 @@ update msg model =
             model + 1
 
         MsgTransformer msgTransformer ->
-            T.update msgTransformer |> Maybe.map (T.decode transformerModel) |> Maybe.withDefault model
+            T.update msgTransformer
+                |> Maybe.map (T.decode transformerModel)
+                |> Maybe.withDefault model
 
 
 view : Model -> Html Msg
@@ -50,5 +52,5 @@ view model =
         [ button [ onClick Decrement ] [ text "-" ]
         , div [] [ text (String.fromInt model) ]
         , button [ onClick Increment ] [ text "+" ]
-        , map MsgTransformer <| T.viewFormElementAsHtml <| T.encode transformerModel model
+        , map MsgTransformer (T.viewFormElmUiAsHtml (T.encode transformerModel model))
         ]

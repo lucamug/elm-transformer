@@ -12447,8 +12447,6 @@ var $mdgriffith$elm_ui$Element$Input$button = F2(
 				_List_fromArray(
 					[label])));
 	});
-var $elm$virtual_dom$VirtualDom$style = _VirtualDom_style;
-var $elm$html$Html$Attributes$style = $elm$virtual_dom$VirtualDom$style;
 var $author$project$Transformer$Generic$inputButton = F3(
 	function (generic, attrs, args) {
 		if (generic.$ === 'GElem') {
@@ -12466,23 +12464,18 @@ var $author$project$Transformer$Generic$inputButton = F3(
 					$elm$html$Html$button,
 					_Utils_ap(
 						$author$project$Transformer$Generic$attributesHtml(attrs),
-						_Utils_ap(
-							_List_fromArray(
-								[
-									A2($elm$html$Html$Attributes$style, 'cursor', 'pointer')
-								]),
-							function () {
-								var _v1 = args.onPress;
-								if (_v1.$ === 'Just') {
-									var onPress = _v1.a;
-									return _List_fromArray(
-										[
-											$elm$html$Html$Events$onClick(onPress)
-										]);
-								} else {
-									return _List_Nil;
-								}
-							}())),
+						function () {
+							var _v1 = args.onPress;
+							if (_v1.$ === 'Just') {
+								var onPress = _v1.a;
+								return _List_fromArray(
+									[
+										$elm$html$Html$Events$onClick(onPress)
+									]);
+							} else {
+								return _List_Nil;
+							}
+						}()),
 					_List_fromArray(
 						[
 							$elm$html$Html$text(args.label)
@@ -13893,10 +13886,7 @@ var $author$project$Transformer$Generic$inputCheckboxLabelRight = F3(
 			return $author$project$Transformer$Generic$NodeHtml(
 				A2(
 					$elm$html$Html$label,
-					_List_fromArray(
-						[
-							A2($elm$html$Html$Attributes$style, 'cursor', 'pointer')
-						]),
+					_List_Nil,
 					_List_fromArray(
 						[
 							A2(
@@ -14352,10 +14342,7 @@ var $author$project$Transformer$Generic$inputRadioLabelRight = F3(
 						function (s) {
 							return A2(
 								$elm$html$Html$label,
-								_List_fromArray(
-									[
-										A2($elm$html$Html$Attributes$style, 'cursor', 'pointer')
-									]),
+								_List_Nil,
 								_List_fromArray(
 									[
 										A2(
@@ -14594,6 +14581,8 @@ var $mdgriffith$elm_ui$Internal$Model$paddingNameFloat = F4(
 	function (top, right, bottom, left) {
 		return 'pad-' + ($mdgriffith$elm_ui$Internal$Model$floatClass(top) + ('-' + ($mdgriffith$elm_ui$Internal$Model$floatClass(right) + ('-' + ($mdgriffith$elm_ui$Internal$Model$floatClass(bottom) + ('-' + $mdgriffith$elm_ui$Internal$Model$floatClass(left)))))));
 	});
+var $elm$virtual_dom$VirtualDom$style = _VirtualDom_style;
+var $elm$html$Html$Attributes$style = $elm$virtual_dom$VirtualDom$style;
 var $mdgriffith$elm_ui$Element$Input$redistributeOver = F4(
 	function (isMultiline, stacked, attr, els) {
 		switch (attr.$) {
@@ -15922,7 +15911,7 @@ var $author$project$Transformer$Form$viewValue = F3(
 						]));
 		}
 	});
-var $author$project$Transformer$Form$viewFormElementAsHtml = function (value) {
+var $author$project$Transformer$Form$viewFormElmUiAsHtml = function (value) {
 	return A2(
 		$mdgriffith$elm_ui$Element$layout,
 		_List_fromArray(
@@ -15933,7 +15922,7 @@ var $author$project$Transformer$Form$viewFormElementAsHtml = function (value) {
 		$author$project$Transformer$Generic$viewElem(
 			A2($author$project$Transformer$Form$viewValue, _List_Nil, value)));
 };
-var $author$project$Transformer$viewFormElementAsHtml = $author$project$Transformer$Form$viewFormElementAsHtml;
+var $author$project$Transformer$viewFormElmUiAsHtml = $author$project$Transformer$Form$viewFormElmUiAsHtml;
 var $author$project$Counter$view = function (model) {
 	return A2(
 		$elm$html$Html$div,
@@ -15971,7 +15960,7 @@ var $author$project$Counter$view = function (model) {
 				A2(
 				$elm$html$Html$map,
 				$author$project$Counter$MsgTransformer,
-				$author$project$Transformer$viewFormElementAsHtml(
+				$author$project$Transformer$viewFormElmUiAsHtml(
 					A2($author$project$Transformer$encode, $author$project$Counter$transformerModel, model)))
 			]));
 };

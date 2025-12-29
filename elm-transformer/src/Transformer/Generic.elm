@@ -53,7 +53,7 @@ inputRadioLabelRight generic attrs args =
                 Html.div [ class "column" ] <|
                     List.map
                         (\s ->
-                            Html.label [ HA.style "cursor" "pointer" ]
+                            Html.label []
                                 [ Html.input
                                     [ HA.type_ "radio"
                                     , HA.value s
@@ -85,7 +85,7 @@ inputCheckboxLabelRight generic attrs args =
 
         GHtml ->
             NodeHtml <|
-                Html.label [ HA.style "cursor" "pointer" ]
+                Html.label []
                     [ Html.input
                         (attributesHtml attrs
                             ++ [ HA.type_ "checkbox"
@@ -147,7 +147,6 @@ inputButton generic attrs args =
             NodeHtml <|
                 Html.button
                     (attributesHtml attrs
-                        ++ [ HA.style "cursor" "pointer" ]
                         ++ (case args.onPress of
                                 Just onPress ->
                                     [ HE.onClick onPress ]

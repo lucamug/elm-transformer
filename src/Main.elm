@@ -1684,7 +1684,7 @@ view model =
                         []
             , markdownExplanation4
             , viewExamples model
-            , newTabLink [] { label = text "GitHub", url = repo }
+            , newTabLink [ Font.size 13, Font.underline, Font.color <| rgba 0 0 0 0.5 ] { label = text "GitHub", url = repo }
             , html <| SyntaxHighlight.useTheme SyntaxHighlight.gitHub
             , html <| Html.node "style" [] [ Html.text <| cssCode ++ css ]
             ]
@@ -1777,16 +1777,20 @@ css =
     ; border-radius: 8px
     }
 
-.elm-transformer-form div
-    { align-content: center
-    }
+.elm-transformer-form div,
+.elm-transformer-form label
+    { align-content: center }
 
-.elm-transformer-form input 
+.elm-transformer-form input
     { margin: 0 16px 0 0
     ; font-family: monospace
     ; font-size 13px
     ; padding: 4px
     }
+
+.elm-transformer-form label,
+.elm-transformer-form button
+    { cursor: pointer }
 
 .elm-transformer-column
     { gap: 16px
@@ -1798,8 +1802,7 @@ css =
     { gap: 16px
     ; display: flex
     ; flex-direction: row
-    }
-"""
+    }"""
 
 
 repo : String
@@ -1816,10 +1819,6 @@ A library for visualizing and editing any Elm data structure. It's useful for ob
 ## Design Goals
 
 Provide a way to visualize and edit a single piece of data, multiple pieces of data, or the entire `Model` via a web form with minimal effort.
-
-This approach requires writing additional code to describe the data; it does not rely on a code generator for this purpose.
-
-The generated form performs validation to ensure that the edited data remains valid at all times. This validation is not the standard approach where users can type freely and errors pop up below the input field. Instead, this library prevents user input if it would immediately invalidate the data. If this occurs, it's typically necessary to add or remove multiple characters at once (e.g., using copy/paste) to transition between valid states. Also items may annihilate if, while editing, their ids became the same of other existing items.
 
 ## Example 1 - Editing the Model of the Counter Application
 
@@ -1870,7 +1869,9 @@ update msg model =
             model + 1
 
         MsgTransformer msgTransformer ->
-            T.update msgTransformer |> Maybe.map (T.decode transformerModel) |> Maybe.withDefault model
+            T.update msgTransformer
+                |> Maybe.map (T.decode transformerModel)
+                |> Maybe.withDefault model
 
 view : Model -> Html Msg
 view model =
@@ -1878,7 +1879,7 @@ view model =
         [ button [ onClick Decrement ] [ text "-" ]
         , div [] [ text (String.fromInt model) ]
         , button [ onClick Increment ] [ text "+" ]
-        , map MsgTransformer <| T.viewFormElementAsHtml <| T.encode transformerModel model
+        , map MsgTransformer (T.viewFormElmUiAsHtml (T.encode transformerModel model))
         ]
 """
 
@@ -1932,11 +1933,11 @@ This outputs simple HTML. You will need to add some CSS to make it look nice, fo
 """ ++ css ++ """
 ```
 
-### 2. `viewFormElementAsHtml : Value -> Html.Html Msg`
+### 2. `viewFormElmUiAsHtml : Value -> Html.Html Msg`
 
 This also outputs HTML, but it is generated using the [`elm-ui` library](https://package.elm-lang.org/packages/mdgriffith/elm-ui/latest/). It does not require any extra styling. Be aware that it may conflict with your existing styling.
 
-### 3. `viewFormElement : Value -> Element.Element Msg`
+### 3. `viewFormElmUi : Value -> Element.Element Msg`
 
 This outputs an `elm-ui` **Element**, which is useful for including the form in an application already built using `elm-ui`.
 
@@ -1958,8 +1959,11 @@ markdownExplanation4 : Element msg
 markdownExplanation4 =
     docs <| """## Notes
 
+* This library requires writing additional code to describe the data; it does not rely on a code generator for this purpose.
+* The generated form performs validation to ensure that the edited data remains valid at all times. This validation is not the standard approach where users can type freely and errors pop up below the input field. Instead, this library prevents user input if it would immediately invalidate the data. If this occurs, it's typically necessary to add or remove multiple characters at once (e.g., using copy/paste) to transition between valid states.
+* Editing an item to have an ID identical to an existing item's ID may cause it to be overwritten or deleted, in case of structures such as Dicts or Sets.
 * The `update` function has a slightly different type signature compared to standard `update` functions in TEA. It does not require the model, as all necessary information is already contained in the message.
-* This library is not intended to be a generic form generator, as customization is very limited and performance may not be optimal. There are other libraries specifically designed with such goals in mind.
+* This library is not intended to be a generic form generator, as customization is very limited and performance may not be optimal. There are other libraries specifically designed with such goals in mind, like [dillonkearns/elm-form](https://package.elm-lang.org/packages/dillonkearns/elm-form/latest/).
 * If you squint, you can think of a `Transformer` as analogous to a [`Codec`](https://package.elm-lang.org/packages/miniBill/elm-codec/latest/Codec#Codec), if you are familiar with [that library](https://package.elm-lang.org/packages/miniBill/elm-codec/latest/). It contains the information to encode and decode a type into another type.
 * If you want to edit independently different pieces of data that are not connected, set up multiple message types. See [this code](""" ++ repo ++ "src/Main.elm" ++ """) for an example.
 
@@ -1975,8 +1979,8 @@ viewCodeCounter elmCode =
         |> Result.map (SyntaxHighlight.highlightLines (Just SyntaxHighlight.Highlight) 5 6)
         |> Result.map (SyntaxHighlight.highlightLines (Just SyntaxHighlight.Highlight) 14 17)
         |> Result.map (SyntaxHighlight.highlightLines (Just SyntaxHighlight.Highlight) 25 26)
-        |> Result.map (SyntaxHighlight.highlightLines (Just SyntaxHighlight.Highlight) 36 38)
-        |> Result.map (SyntaxHighlight.highlightLines (Just SyntaxHighlight.Highlight) 45 46)
+        |> Result.map (SyntaxHighlight.highlightLines (Just SyntaxHighlight.Highlight) 36 40)
+        |> Result.map (SyntaxHighlight.highlightLines (Just SyntaxHighlight.Highlight) 47 48)
         |> Result.map (SyntaxHighlight.toBlockHtml (Just 1))
         |> Result.withDefault (Html.pre [] [ Html.code [] [ Html.text elmCode ] ])
 
@@ -2058,7 +2062,7 @@ viewExample model mStuff =
                     )
                 , viewRowTable "T.Transformer.viewForm"
                     (if model.elmUi then
-                        T.viewFormElement (T.encode mStuff.t (mStuff.getter model))
+                        T.viewFormElmUi (T.encode mStuff.t (mStuff.getter model))
 
                      else
                         el [] <| html <| T.viewForm (T.encode mStuff.t (mStuff.getter model))

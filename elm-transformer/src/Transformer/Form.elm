@@ -1,6 +1,6 @@
 module Transformer.Form exposing
-    ( viewFormElement
-    , viewFormElementAsHtml
+    ( viewFormElmUi
+    , viewFormElmUiAsHtml
     , viewFormHtml
     )
 
@@ -35,13 +35,13 @@ viewFormHtml value =
         [ TG.viewHtml (viewValue [] value) ]
 
 
-viewFormElement : TI.Value -> Element.Element TI.Msg
-viewFormElement value =
+viewFormElmUi : TI.Value -> Element.Element TI.Msg
+viewFormElmUi value =
     TG.viewElem <| viewValue [] value
 
 
-viewFormElementAsHtml : TI.Value -> Html.Html TI.Msg
-viewFormElementAsHtml value =
+viewFormElmUiAsHtml : TI.Value -> Html.Html TI.Msg
+viewFormElmUiAsHtml value =
     layout [ htmlAttribute <| Html.Attributes.class rootElementClass ] <|
         TG.viewElem (viewValue [] value)
 

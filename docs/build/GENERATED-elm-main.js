@@ -11226,6 +11226,47 @@ var $author$project$Transformer$Codec$codecValue = $author$project$Codec$recursi
 																};
 															})))))))))))));
 	});
+var $mdgriffith$elm_ui$Internal$Model$Colored = F3(
+	function (a, b, c) {
+		return {$: 'Colored', a: a, b: b, c: c};
+	});
+var $mdgriffith$elm_ui$Internal$Model$StyleClass = F2(
+	function (a, b) {
+		return {$: 'StyleClass', a: a, b: b};
+	});
+var $mdgriffith$elm_ui$Internal$Flag$Flag = function (a) {
+	return {$: 'Flag', a: a};
+};
+var $mdgriffith$elm_ui$Internal$Flag$Second = function (a) {
+	return {$: 'Second', a: a};
+};
+var $elm$core$Bitwise$shiftLeftBy = _Bitwise_shiftLeftBy;
+var $mdgriffith$elm_ui$Internal$Flag$flag = function (i) {
+	return (i > 31) ? $mdgriffith$elm_ui$Internal$Flag$Second(1 << (i - 32)) : $mdgriffith$elm_ui$Internal$Flag$Flag(1 << i);
+};
+var $mdgriffith$elm_ui$Internal$Flag$fontColor = $mdgriffith$elm_ui$Internal$Flag$flag(14);
+var $elm$core$Basics$round = _Basics_round;
+var $mdgriffith$elm_ui$Internal$Model$floatClass = function (x) {
+	return $elm$core$String$fromInt(
+		$elm$core$Basics$round(x * 255));
+};
+var $mdgriffith$elm_ui$Internal$Model$formatColorClass = function (_v0) {
+	var red = _v0.a;
+	var green = _v0.b;
+	var blue = _v0.c;
+	var alpha = _v0.d;
+	return $mdgriffith$elm_ui$Internal$Model$floatClass(red) + ('-' + ($mdgriffith$elm_ui$Internal$Model$floatClass(green) + ('-' + ($mdgriffith$elm_ui$Internal$Model$floatClass(blue) + ('-' + $mdgriffith$elm_ui$Internal$Model$floatClass(alpha))))));
+};
+var $mdgriffith$elm_ui$Element$Font$color = function (fontColor) {
+	return A2(
+		$mdgriffith$elm_ui$Internal$Model$StyleClass,
+		$mdgriffith$elm_ui$Internal$Flag$fontColor,
+		A3(
+			$mdgriffith$elm_ui$Internal$Model$Colored,
+			'fc-' + $mdgriffith$elm_ui$Internal$Model$formatColorClass(fontColor),
+			'color',
+			fontColor));
+};
 var $mdgriffith$elm_ui$Internal$Model$Unkeyed = function (a) {
 	return {$: 'Unkeyed', a: a};
 };
@@ -11335,16 +11376,6 @@ var $mdgriffith$elm_ui$Internal$Model$AsEl = {$: 'AsEl'};
 var $mdgriffith$elm_ui$Internal$Model$asEl = $mdgriffith$elm_ui$Internal$Model$AsEl;
 var $mdgriffith$elm_ui$Internal$Model$AsParagraph = {$: 'AsParagraph'};
 var $mdgriffith$elm_ui$Internal$Model$asParagraph = $mdgriffith$elm_ui$Internal$Model$AsParagraph;
-var $mdgriffith$elm_ui$Internal$Flag$Flag = function (a) {
-	return {$: 'Flag', a: a};
-};
-var $mdgriffith$elm_ui$Internal$Flag$Second = function (a) {
-	return {$: 'Second', a: a};
-};
-var $elm$core$Bitwise$shiftLeftBy = _Bitwise_shiftLeftBy;
-var $mdgriffith$elm_ui$Internal$Flag$flag = function (i) {
-	return (i > 31) ? $mdgriffith$elm_ui$Internal$Flag$Second(1 << (i - 32)) : $mdgriffith$elm_ui$Internal$Flag$Flag(1 << i);
-};
 var $mdgriffith$elm_ui$Internal$Flag$alignBottom = $mdgriffith$elm_ui$Internal$Flag$flag(41);
 var $mdgriffith$elm_ui$Internal$Flag$alignRight = $mdgriffith$elm_ui$Internal$Flag$flag(40);
 var $mdgriffith$elm_ui$Internal$Flag$centerX = $mdgriffith$elm_ui$Internal$Flag$flag(42);
@@ -11368,11 +11399,6 @@ var $mdgriffith$elm_ui$Internal$Model$lengthClassName = function (x) {
 			var len = x.b;
 			return 'max' + ($elm$core$String$fromInt(max) + $mdgriffith$elm_ui$Internal$Model$lengthClassName(len));
 	}
-};
-var $elm$core$Basics$round = _Basics_round;
-var $mdgriffith$elm_ui$Internal$Model$floatClass = function (x) {
-	return $elm$core$String$fromInt(
-		$elm$core$Basics$round(x * 255));
 };
 var $mdgriffith$elm_ui$Internal$Model$transformClass = function (transform) {
 	switch (transform.$) {
@@ -16680,15 +16706,15 @@ var $author$project$Main$viewCodeCounter = function (elmCode) {
 				A3(
 					$pablohirafuji$elm_syntax_highlight$SyntaxHighlight$highlightLines,
 					$elm$core$Maybe$Just($pablohirafuji$elm_syntax_highlight$SyntaxHighlight$Highlight),
-					45,
-					46),
+					47,
+					48),
 				A2(
 					$elm$core$Result$map,
 					A3(
 						$pablohirafuji$elm_syntax_highlight$SyntaxHighlight$highlightLines,
 						$elm$core$Maybe$Just($pablohirafuji$elm_syntax_highlight$SyntaxHighlight$Highlight),
 						36,
-						38),
+						40),
 					A2(
 						$elm$core$Result$map,
 						A3(
@@ -16712,8 +16738,8 @@ var $author$project$Main$viewCodeCounter = function (elmCode) {
 									6),
 								$pablohirafuji$elm_syntax_highlight$SyntaxHighlight$elm(elmCode))))))));
 };
-var $author$project$Main$counterCode = $author$project$Main$viewCodeCounter('module Counter exposing (main)\n\nimport Browser\nimport Html exposing (Html, button, div, map, text)\nimport Html.Events exposing (onClick)\nimport Transformer as T\n\nmain : Program () Model Msg\nmain =\n    Browser.sandbox { init = init, update = update, view = view }\n\ntype alias Model =\n    Int\n\ntransformerModel : T.Transformer Model\ntransformerModel =\n    T.int\n\ninit : Model\ninit =\n    0\n\ntype Msg\n    = Decrement\n    | Increment\n    | MsgTransformer T.Msg\n\nupdate : Msg -> Model -> Model\nupdate msg model =\n    case msg of\n        Decrement ->\n            model - 1\n\n        Increment ->\n            model + 1\n\n        MsgTransformer msgTransformer ->\n            T.update msgTransformer |> Maybe.map (T.decode transformerModel) |> Maybe.withDefault model\n\nview : Model -> Html Msg\nview model =\n    div []\n        [ button [ onClick Decrement ] [ text "-" ]\n        , div [] [ text (String.fromInt model) ]\n        , button [ onClick Increment ] [ text "+" ]\n        , map MsgTransformer <| T.viewFormElementAsHtml <| T.encode transformerModel model\n        ]\n');
-var $author$project$Main$css = '.elm-transformer-form\n    { font-family: monospace\n    ; font-size: 14px\n    ; border: 1px solid lightgray\n    ; padding: 16px\n    ; border-radius: 8px\n    }\n\n.elm-transformer-form div\n    { align-content: center\n    }\n\n.elm-transformer-form input \n    { margin: 0 16px 0 0\n    ; font-family: monospace\n    ; font-size 13px\n    ; padding: 4px\n    }\n\n.elm-transformer-column\n    { gap: 16px\n    ; display: flex\n    ; flex-direction: column\n    }\n\n.elm-transformer-row\n    { gap: 16px\n    ; display: flex\n    ; flex-direction: row\n    }\n';
+var $author$project$Main$counterCode = $author$project$Main$viewCodeCounter('module Counter exposing (main)\n\nimport Browser\nimport Html exposing (Html, button, div, map, text)\nimport Html.Events exposing (onClick)\nimport Transformer as T\n\nmain : Program () Model Msg\nmain =\n    Browser.sandbox { init = init, update = update, view = view }\n\ntype alias Model =\n    Int\n\ntransformerModel : T.Transformer Model\ntransformerModel =\n    T.int\n\ninit : Model\ninit =\n    0\n\ntype Msg\n    = Decrement\n    | Increment\n    | MsgTransformer T.Msg\n\nupdate : Msg -> Model -> Model\nupdate msg model =\n    case msg of\n        Decrement ->\n            model - 1\n\n        Increment ->\n            model + 1\n\n        MsgTransformer msgTransformer ->\n            T.update msgTransformer\n                |> Maybe.map (T.decode transformerModel)\n                |> Maybe.withDefault model\n\nview : Model -> Html Msg\nview model =\n    div []\n        [ button [ onClick Decrement ] [ text "-" ]\n        , div [] [ text (String.fromInt model) ]\n        , button [ onClick Increment ] [ text "+" ]\n        , map MsgTransformer (T.viewFormElmUiAsHtml (T.encode transformerModel model))\n        ]\n');
+var $author$project$Main$css = '.elm-transformer-form\n    { font-family: monospace\n    ; font-size: 14px\n    ; border: 1px solid lightgray\n    ; padding: 16px\n    ; border-radius: 8px\n    }\n\n.elm-transformer-form div,\n.elm-transformer-form label\n    { align-content: center }\n\n.elm-transformer-form input\n    { margin: 0 16px 0 0\n    ; font-family: monospace\n    ; font-size 13px\n    ; padding: 4px\n    }\n\n.elm-transformer-form label,\n.elm-transformer-form button\n    { cursor: pointer }\n\n.elm-transformer-column\n    { gap: 16px\n    ; display: flex\n    ; flex-direction: column\n    }\n\n.elm-transformer-row\n    { gap: 16px\n    ; display: flex\n    ; flex-direction: row\n    }';
 var $author$project$Main$cssCode = '\n.elmsh\n    { padding: 8px\n    ; border-radius: 8px\n    ; background-color : rgba(0,0,0,0.05)\n    ; border: 1px solid lightGray\n    ; line-height: 1.2rem\n    ; margin: 0\n    ; font-size: 14px\n    }\n';
 var $elm$json$Json$Decode$decodeString = _Json_runOnString;
 var $author$project$Codec$decodeString = function (codec) {
@@ -16747,10 +16773,6 @@ var $author$project$Codec$encodeToString = F2(
 var $mdgriffith$elm_ui$Internal$Model$FontFamily = F2(
 	function (a, b) {
 		return {$: 'FontFamily', a: a, b: b};
-	});
-var $mdgriffith$elm_ui$Internal$Model$StyleClass = F2(
-	function (a, b) {
-		return {$: 'StyleClass', a: a, b: b};
 	});
 var $mdgriffith$elm_ui$Internal$Flag$fontFamily = $mdgriffith$elm_ui$Internal$Flag$flag(5);
 var $elm$core$String$toLower = _String_toLower;
@@ -17310,10 +17332,6 @@ var $mdgriffith$elm_ui$Internal$Model$renderRoot = F3(
 					_List_fromArray(
 						[child]))));
 	});
-var $mdgriffith$elm_ui$Internal$Model$Colored = F3(
-	function (a, b, c) {
-		return {$: 'Colored', a: a, b: b, c: c};
-	});
 var $mdgriffith$elm_ui$Internal$Model$FontSize = function (a) {
 	return {$: 'FontSize', a: a};
 };
@@ -17322,15 +17340,7 @@ var $mdgriffith$elm_ui$Internal$Model$Typeface = function (a) {
 	return {$: 'Typeface', a: a};
 };
 var $mdgriffith$elm_ui$Internal$Flag$bgColor = $mdgriffith$elm_ui$Internal$Flag$flag(8);
-var $mdgriffith$elm_ui$Internal$Flag$fontColor = $mdgriffith$elm_ui$Internal$Flag$flag(14);
 var $mdgriffith$elm_ui$Internal$Flag$fontSize = $mdgriffith$elm_ui$Internal$Flag$flag(4);
-var $mdgriffith$elm_ui$Internal$Model$formatColorClass = function (_v0) {
-	var red = _v0.a;
-	var green = _v0.b;
-	var blue = _v0.c;
-	var alpha = _v0.d;
-	return $mdgriffith$elm_ui$Internal$Model$floatClass(red) + ('-' + ($mdgriffith$elm_ui$Internal$Model$floatClass(green) + ('-' + ($mdgriffith$elm_ui$Internal$Model$floatClass(blue) + ('-' + $mdgriffith$elm_ui$Internal$Model$floatClass(alpha))))));
-};
 var $mdgriffith$elm_ui$Internal$Model$rootStyle = function () {
 	var families = _List_fromArray(
 		[
@@ -25733,16 +25743,6 @@ var $mdgriffith$elm_ui$Element$Border$color = function (clr) {
 			'border-color',
 			clr));
 };
-var $mdgriffith$elm_ui$Element$Font$color = function (fontColor) {
-	return A2(
-		$mdgriffith$elm_ui$Internal$Model$StyleClass,
-		$mdgriffith$elm_ui$Internal$Flag$fontColor,
-		A3(
-			$mdgriffith$elm_ui$Internal$Model$Colored,
-			'fc-' + $mdgriffith$elm_ui$Internal$Model$formatColorClass(fontColor),
-			'color',
-			fontColor));
-};
 var $mdgriffith$elm_ui$Internal$Model$Monospace = {$: 'Monospace'};
 var $mdgriffith$elm_ui$Element$Font$monospace = $mdgriffith$elm_ui$Internal$Model$Monospace;
 var $mdgriffith$elm_ui$Internal$Model$PaddingStyle = F5(
@@ -26620,10 +26620,10 @@ var $author$project$Main$docs = function (markdown) {
 	}
 };
 var $author$project$Main$repo = 'https://github.com/lucamug/elm-transformer/blob/main/';
-var $author$project$Main$markdownExplanation1 = $author$project$Main$docs('# elm-transformer\n\nA library for visualizing and editing any Elm data structure. It\'s useful for observing how an application reacts to real-time changes in its internal data.\n\n## Design Goals\n\nProvide a way to visualize and edit a single piece of data, multiple pieces of data, or the entire `Model` via a web form with minimal effort.\n\nThis approach requires writing additional code to describe the data; it does not rely on a code generator for this purpose.\n\nThe generated form performs validation to ensure that the edited data remains valid at all times. This validation is not the standard approach where users can type freely and errors pop up below the input field. Instead, this library prevents user input if it would immediately invalidate the data. If this occurs, it\'s typically necessary to add or remove multiple characters at once (e.g., using copy/paste) to transition between valid states. Also items may annihilate if, while editing, their ids became the same of other existing items.\n\n## Example 1 - Editing the Model of the Counter Application\n\nStarting from the [canonical counter application](https://elm-lang.org/examples/buttons), let\'s add all the necessary components to make the `Model` editable.\n\nSee the highlighted lines that have been added.\n\n[Code](' + ($author$project$Main$repo + 'src/Counter.elm) - [Demo](counter.html)\n'));
-var $author$project$Main$markdownExplanation2 = $author$project$Main$docs('\n## Example 2 - Wrapping an Existing Application to Edit the Model\n\nIn this example, we add an extra layer of Elm code to the common To-do List Application. The original application [is not modified](todo.html), but is simply called from the wrapper.\n\n[Code](' + ($author$project$Main$repo + ('src/TodoWrapper.elm) - [Demo](todo-wrapped.html)\n\n## How To Use\n\n* Copy the `elm-transformer` folder into your project.\n* Add `elm-transformer/src` to the `source-directories` in your `elm.json` file.\n* Add these dependencies, if not already present in your project:\n  * `elm/bytes`\n  * `elmcraft/core-extra`\n  * `jxxcarlson/hex`\n  * `mdgriffith/elm-ui`\n  * `miniBill/elm-codec`\n  * `rtfeldman/elm-hex`\n  * `zwilias/elm-utf-tools`\n* Import the library. In these examples, it\'s imported with the alias **T**: `import Transformer as T`.\n* Add a new message that has `T.Msg` as its payload.\n* Add a section in your `update` function to handle this new message (see the Counter example).\n* Create a `Transformer` for the data you wish to edit.\n* Add the form to your view via `T.viewForm` (see the Counter example).\n\n## Flow\n\n* Suppose `a` is the Elm data that needs to be edited.\n* Create a transformer for `a`, such as `transformer: Transformer a`.\n* Convert `a` to `Value` by passing the transformer and `a` to `encode : Transformer a -> (a -> Value)`.\n* Provide this `Value` to `viewForm : Value -> Html.Html Msg` to render the form.\n* When a `Msg` arrives, use the `update : Msg -> Maybe Value` function to get the new `Value`.\n* Convert the `Value` back to `a` using `decode : Transformer a -> (Value -> a)`.\n* Store the new `a` in your `Model`. If `a` represents the entire `Model`, replace the entire `Model` with it.\n\n## Views\n\nThere are three different types of view generators:\n\n### 1. `viewForm : Value -> Html.Html Msg`\n\nThis outputs simple HTML. You will need to add some CSS to make it look nice, for example:\n\n```\n' + ($author$project$Main$css + ('\n```\n\n### 2. `viewFormElementAsHtml : Value -> Html.Html Msg`\n\nThis also outputs HTML, but it is generated using the [`elm-ui` library](https://package.elm-lang.org/packages/mdgriffith/elm-ui/latest/). It does not require any extra styling. Be aware that it may conflict with your existing styling.\n\n### 3. `viewFormElement : Value -> Element.Element Msg`\n\nThis outputs an `elm-ui` **Element**, which is useful for including the form in an application already built using `elm-ui`.\n\n## Codec\n\nThe library provides `Transformer.Codec.codecValue`, a **Codec** useful for serializing the `Value` type to JSON. The serialization is not optimized as it contains the overhead of metadata.\n\nFor example, for a `' + ('Dict String String' + '` type of data:\n\n'))))));
+var $author$project$Main$markdownExplanation1 = $author$project$Main$docs('# elm-transformer\n\nA library for visualizing and editing any Elm data structure. It\'s useful for observing how an application reacts to real-time changes in its internal data.\n\n## Design Goals\n\nProvide a way to visualize and edit a single piece of data, multiple pieces of data, or the entire `Model` via a web form with minimal effort.\n\n## Example 1 - Editing the Model of the Counter Application\n\nStarting from the [canonical counter application](https://elm-lang.org/examples/buttons), let\'s add all the necessary components to make the `Model` editable.\n\nSee the highlighted lines that have been added.\n\n[Code](' + ($author$project$Main$repo + 'src/Counter.elm) - [Demo](counter.html)\n'));
+var $author$project$Main$markdownExplanation2 = $author$project$Main$docs('\n## Example 2 - Wrapping an Existing Application to Edit the Model\n\nIn this example, we add an extra layer of Elm code to the common To-do List Application. The original application [is not modified](todo.html), but is simply called from the wrapper.\n\n[Code](' + ($author$project$Main$repo + ('src/TodoWrapper.elm) - [Demo](todo-wrapped.html)\n\n## How To Use\n\n* Copy the `elm-transformer` folder into your project.\n* Add `elm-transformer/src` to the `source-directories` in your `elm.json` file.\n* Add these dependencies, if not already present in your project:\n  * `elm/bytes`\n  * `elmcraft/core-extra`\n  * `jxxcarlson/hex`\n  * `mdgriffith/elm-ui`\n  * `miniBill/elm-codec`\n  * `rtfeldman/elm-hex`\n  * `zwilias/elm-utf-tools`\n* Import the library. In these examples, it\'s imported with the alias **T**: `import Transformer as T`.\n* Add a new message that has `T.Msg` as its payload.\n* Add a section in your `update` function to handle this new message (see the Counter example).\n* Create a `Transformer` for the data you wish to edit.\n* Add the form to your view via `T.viewForm` (see the Counter example).\n\n## Flow\n\n* Suppose `a` is the Elm data that needs to be edited.\n* Create a transformer for `a`, such as `transformer: Transformer a`.\n* Convert `a` to `Value` by passing the transformer and `a` to `encode : Transformer a -> (a -> Value)`.\n* Provide this `Value` to `viewForm : Value -> Html.Html Msg` to render the form.\n* When a `Msg` arrives, use the `update : Msg -> Maybe Value` function to get the new `Value`.\n* Convert the `Value` back to `a` using `decode : Transformer a -> (Value -> a)`.\n* Store the new `a` in your `Model`. If `a` represents the entire `Model`, replace the entire `Model` with it.\n\n## Views\n\nThere are three different types of view generators:\n\n### 1. `viewForm : Value -> Html.Html Msg`\n\nThis outputs simple HTML. You will need to add some CSS to make it look nice, for example:\n\n```\n' + ($author$project$Main$css + ('\n```\n\n### 2. `viewFormElmUiAsHtml : Value -> Html.Html Msg`\n\nThis also outputs HTML, but it is generated using the [`elm-ui` library](https://package.elm-lang.org/packages/mdgriffith/elm-ui/latest/). It does not require any extra styling. Be aware that it may conflict with your existing styling.\n\n### 3. `viewFormElmUi : Value -> Element.Element Msg`\n\nThis outputs an `elm-ui` **Element**, which is useful for including the form in an application already built using `elm-ui`.\n\n## Codec\n\nThe library provides `Transformer.Codec.codecValue`, a **Codec** useful for serializing the `Value` type to JSON. The serialization is not optimized as it contains the overhead of metadata.\n\nFor example, for a `' + ('Dict String String' + '` type of data:\n\n'))))));
 var $author$project$Main$markdownExplanation3 = $author$project$Main$docs('This is how it would be serialized by the Codec (editable):');
-var $author$project$Main$markdownExplanation4 = $author$project$Main$docs('## Notes\n\n* The `update` function has a slightly different type signature compared to standard `update` functions in TEA. It does not require the model, as all necessary information is already contained in the message.\n* This library is not intended to be a generic form generator, as customization is very limited and performance may not be optimal. There are other libraries specifically designed with such goals in mind.\n* If you squint, you can think of a `Transformer` as analogous to a [`Codec`](https://package.elm-lang.org/packages/miniBill/elm-codec/latest/Codec#Codec), if you are familiar with [that library](https://package.elm-lang.org/packages/miniBill/elm-codec/latest/). It contains the information to encode and decode a type into another type.\n* If you want to edit independently different pieces of data that are not connected, set up multiple message types. See [this code](' + ($author$project$Main$repo + ('src/Main.elm' + ') for an example.\n\n## Examples of Transformers\n\nThis is a list of built-in transformers and examples of custom transformers that need to be created for more complex data structures, such as custom types or records.\n')));
+var $author$project$Main$markdownExplanation4 = $author$project$Main$docs('## Notes\n\n* This library requires writing additional code to describe the data; it does not rely on a code generator for this purpose.\n* The generated form performs validation to ensure that the edited data remains valid at all times. This validation is not the standard approach where users can type freely and errors pop up below the input field. Instead, this library prevents user input if it would immediately invalidate the data. If this occurs, it\'s typically necessary to add or remove multiple characters at once (e.g., using copy/paste) to transition between valid states.\n* Editing an item to have an ID identical to an existing item\'s ID may cause it to be overwritten or deleted, in case of structures such as Dicts or Sets.\n* The `update` function has a slightly different type signature compared to standard `update` functions in TEA. It does not require the model, as all necessary information is already contained in the message.\n* This library is not intended to be a generic form generator, as customization is very limited and performance may not be optimal. There are other libraries specifically designed with such goals in mind, like [dillonkearns/elm-form](https://package.elm-lang.org/packages/dillonkearns/elm-form/latest/).\n* If you squint, you can think of a `Transformer` as analogous to a [`Codec`](https://package.elm-lang.org/packages/miniBill/elm-codec/latest/Codec#Codec), if you are familiar with [that library](https://package.elm-lang.org/packages/miniBill/elm-codec/latest/). It contains the information to encode and decode a type into another type.\n* If you want to edit independently different pieces of data that are not connected, set up multiple message types. See [this code](' + ($author$project$Main$repo + ('src/Main.elm' + ') for an example.\n\n## Examples of Transformers\n\nThis is a list of built-in transformers and examples of custom transformers that need to be created for more complex data structures, such as custom types or records.\n')));
 var $elm$html$Html$node = $elm$virtual_dom$VirtualDom$node;
 var $elm$html$Html$Events$alwaysStop = function (x) {
 	return _Utils_Tuple2(x, true);
@@ -26659,6 +26659,7 @@ var $elm$html$Html$Events$onInput = function (tagger) {
 };
 var $mdgriffith$elm_ui$Element$Font$sansSerif = $mdgriffith$elm_ui$Internal$Model$SansSerif;
 var $elm$html$Html$textarea = _VirtualDom_node('textarea');
+var $mdgriffith$elm_ui$Element$Font$underline = $mdgriffith$elm_ui$Internal$Model$htmlClass($mdgriffith$elm_ui$Internal$Style$classes.underline);
 var $pablohirafuji$elm_syntax_highlight$SyntaxHighlight$useTheme = function (_v0) {
 	var theme = _v0.a;
 	return A3(
@@ -27055,23 +27056,18 @@ var $author$project$Transformer$Generic$inputButton = F3(
 					$elm$html$Html$button,
 					_Utils_ap(
 						$author$project$Transformer$Generic$attributesHtml(attrs),
-						_Utils_ap(
-							_List_fromArray(
-								[
-									A2($elm$html$Html$Attributes$style, 'cursor', 'pointer')
-								]),
-							function () {
-								var _v1 = args.onPress;
-								if (_v1.$ === 'Just') {
-									var onPress = _v1.a;
-									return _List_fromArray(
-										[
-											$elm$html$Html$Events$onClick(onPress)
-										]);
-								} else {
-									return _List_Nil;
-								}
-							}())),
+						function () {
+							var _v1 = args.onPress;
+							if (_v1.$ === 'Just') {
+								var onPress = _v1.a;
+								return _List_fromArray(
+									[
+										$elm$html$Html$Events$onClick(onPress)
+									]);
+							} else {
+								return _List_Nil;
+							}
+						}()),
 					_List_fromArray(
 						[
 							$elm$html$Html$text(args.label)
@@ -27527,10 +27523,7 @@ var $author$project$Transformer$Generic$inputCheckboxLabelRight = F3(
 			return $author$project$Transformer$Generic$NodeHtml(
 				A2(
 					$elm$html$Html$label,
-					_List_fromArray(
-						[
-							A2($elm$html$Html$Attributes$style, 'cursor', 'pointer')
-						]),
+					_List_Nil,
 					_List_fromArray(
 						[
 							A2(
@@ -27967,10 +27960,7 @@ var $author$project$Transformer$Generic$inputRadioLabelRight = F3(
 						function (s) {
 							return A2(
 								$elm$html$Html$label,
-								_List_fromArray(
-									[
-										A2($elm$html$Html$Attributes$style, 'cursor', 'pointer')
-									]),
+								_List_Nil,
 								_List_fromArray(
 									[
 										A2(
@@ -29494,12 +29484,12 @@ var $author$project$Transformer$Generic$viewElem = function (view_) {
 		return $mdgriffith$elm_ui$Element$text('');
 	}
 };
-var $author$project$Transformer$Form$viewFormElement = function (value) {
+var $author$project$Transformer$Form$viewFormElmUi = function (value) {
 	return $author$project$Transformer$Generic$viewElem(
 		A2($author$project$Transformer$Form$viewValue, _List_Nil, value));
 };
-var $author$project$Transformer$viewFormElement = function (v) {
-	return $author$project$Transformer$Form$viewFormElement(v);
+var $author$project$Transformer$viewFormElmUi = function (v) {
+	return $author$project$Transformer$Form$viewFormElmUi(v);
 };
 var $author$project$Main$viewRowTable = F2(
 	function (string, content) {
@@ -29587,7 +29577,7 @@ var $author$project$Main$viewExample = F2(
 								A2(
 								$author$project$Main$viewRowTable,
 								'T.Transformer.viewForm',
-								model.elmUi ? $author$project$Transformer$viewFormElement(
+								model.elmUi ? $author$project$Transformer$viewFormElmUi(
 									A2(
 										$author$project$Transformer$encode,
 										mStuff.t,
@@ -29833,7 +29823,13 @@ var $author$project$Main$view = function (model) {
 					$author$project$Main$viewExamples(model),
 					A2(
 					$mdgriffith$elm_ui$Element$newTabLink,
-					_List_Nil,
+					_List_fromArray(
+						[
+							$mdgriffith$elm_ui$Element$Font$size(13),
+							$mdgriffith$elm_ui$Element$Font$underline,
+							$mdgriffith$elm_ui$Element$Font$color(
+							A4($mdgriffith$elm_ui$Element$rgba, 0, 0, 0, 0.5))
+						]),
 					{
 						label: $mdgriffith$elm_ui$Element$text('GitHub'),
 						url: $author$project$Main$repo
