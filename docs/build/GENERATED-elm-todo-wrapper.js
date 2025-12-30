@@ -5924,7 +5924,6 @@ var $author$project$Transformer$listWithName = function (name) {
 	return $author$project$Transformer$listWithDefinition(
 		{isDictOrSet: false, name: name});
 };
-var $author$project$Transformer$list = $author$project$Transformer$listWithName('List');
 var $author$project$Transformer$Internal$VString = function (a) {
 	return {$: 'VString', a: a};
 };
@@ -6097,7 +6096,7 @@ var $author$project$TodoWrapper$transformerModel = function () {
 		description: {key: 'description', tr: $author$project$Transformer$string},
 		entries: {
 			key: 'entries',
-			tr: $author$project$Transformer$list($author$project$TodoWrapper$transformerEntry)
+			tr: A2($author$project$Transformer$listWithName, 'List Entry', $author$project$TodoWrapper$transformerEntry)
 		},
 		mode: {key: 'mode', tr: $author$project$TodoWrapper$transformerMode},
 		uid: {key: 'uid', tr: $author$project$Transformer$int},

@@ -91,7 +91,7 @@ transformerModel =
     let
         meta =
             { description = { key = "description", tr = T.string }
-            , entries = { key = "entries", tr = T.list transformerEntry }
+            , entries = { key = "entries", tr = T.listWithName "List Entry" transformerEntry }
             , mode = { key = "mode", tr = transformerMode }
             , uid = { key = "uid", tr = T.int }
             , visibility = { key = "visibility", tr = transformerVisibility }
